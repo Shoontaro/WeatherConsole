@@ -12,8 +12,8 @@ namespace WeatherConsole
         public GetApiKey()
         {
             var config = new ConfigurationBuilder()
-               .AddUserSecrets<Program>() // Подключаем локальные секреты
-               .AddEnvironmentVariables() // Подключаем переменные окружения для продакшена
+               .AddUserSecrets<Program>() 
+               .AddEnvironmentVariables() 
                .Build();
             ApiKey = config["MyApiKey"] ?? string.Empty;
         }

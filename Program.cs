@@ -1,7 +1,11 @@
-﻿internal class Program
+﻿using Microsoft.Extensions.Caching.Memory;
+
+internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        using IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
+        
+        Console.WriteLine("Приложение погоды на Flurl запущено.");
     }
 }
