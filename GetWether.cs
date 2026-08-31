@@ -34,8 +34,6 @@ namespace WeatherConsole
 
                 Console.WriteLine("[СЕТЬ] Данных в кэше нет. Делаем реальный запрос через Flurl...");
 
-                try
-                {
                     var response = await url
                 .AppendPathSegment(location)
                 .AppendPathSegment("today")
@@ -49,8 +47,7 @@ namespace WeatherConsole
                 .GetJsonAsync<VisualCrossingResponse>();
 
                     return response;
-                }
-                catch { }
+                
             });
         }
     }
