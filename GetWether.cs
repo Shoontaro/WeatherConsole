@@ -34,7 +34,7 @@ namespace WeatherConsole
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15);
 
-                view.WriteLine("[bold yellow] Данных в кэше нет. Делаем реальный запрос через Flurl...[/]");
+                view.WriteLine("[NETWORK] No data in cache. Making a real request via Flurl...");
 
                 try
                 {
@@ -56,14 +56,14 @@ namespace WeatherConsole
                 catch(FlurlHttpException ex)
                 {
                     var status = ex.StatusCode;
-                    view.WriteLine($"[red]--ОШИБКА API-- Ошибка сети или некорректный запрос. Статус-код: {status}[/]");
+                    view.WriteLine($"[ERROR] Network error or invalid request. Status code: {status}");
 
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.Zero;
                     return null;
                 }
                 catch (Exception ex)
                 {
-                    view.WriteLine($"[red]--ОШИБКА-- Непредвиденная ошибка: {ex.Message}[/]");
+                    view.WriteLine($"[ERROR] Unexpected error: {ex.Message}");
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.Zero;
                     return null;
                 }
@@ -72,18 +72,18 @@ namespace WeatherConsole
             if (weather?.CurrentConditions != null)
             {
                 var current = weather.CurrentConditions;
-                view.WriteLine($"\n[green]  Город (по базе): {weather.Address}[/]");
-                view.WriteLine($"[green]-> Температура: {current.Temp} °C (Ощущается как: {current.FeelsLike} °C)[/]");
-                view.WriteLine($"[green]-> Погода: {current.Conditions}[/]");
-                view.WriteLine($"[green]-> Влажность: {current.Humidity}%[/]");
-                view.WriteLine($"[green]-> Местное время замера: {current.Datetime}[/]");
+                view.WriteLine($"\n[INFO]  Town : {weather.Address}");
+                view.WriteLine($"[INFO]-> Температура: {current.Temp} °C (Ощущается как: {current.FeelsLike} °C)");
+                view.WriteLine($"[INFO]-> Погода: {current.Conditions}");
+                view.WriteLine($"[INFO]-> Влажность: {current.Humidity}%");
+                view.WriteLine($"[INFO]-> Местное время замера: {current.Datetime}");
             }
             else
             {
-                view.WriteLine("[red] Не удалось получить данные. Попробуйте еще раз.[/]");
+                view.WriteLine("[ERROR] Failed to retrieve data. Please try again.");
             }
 
-            Console.WriteLine(new string('-', 40));
+            view.WriteLine(new string('-', 40));
 
         }
     }

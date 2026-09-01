@@ -16,15 +16,9 @@ namespace WeatherConsole
 
     public class SpectreView : IView
     {
-        public string Read()
-        {
-            return Console.ReadLine() ?? "";
-        }
+        public string Read() => Console.ReadLine() ?? "";
 
-        public void Write(string text)
-        {
-            AnsiConsole.Markup(text);
-        }
+        public void Write(string text) => AnsiConsole.Markup(text);
 
         public void WriteLine(string text)
         {

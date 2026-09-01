@@ -6,7 +6,7 @@ internal class Program
     private static void Main(string[] args)
     {
         using IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
-        IView view = new SpectreView();
+        IView view = new View();
 
         view.WriteLine("[green] Приложение погоды на Flurl запущено.[/]");
 
