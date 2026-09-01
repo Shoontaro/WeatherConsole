@@ -16,11 +16,13 @@ namespace WeatherConsole
         string apiKey;
         const string url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
         IMemoryCache cache;
+        IView view;
 
-        public GetWether()
+        public GetWether(IView view)
         {
             apiKey = new GetApiKey().GetKey();
             cache = new MemoryCache(new MemoryCacheOptions());
+            this.view = view;
         }
 
         public async Task GetWeatherAsync()
@@ -32,7 +34,7 @@ namespace WeatherConsole
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15);
 
-                Console.WriteLine("[СЕТЬ] Данных в кэше нет. Делаем реальный запрос через Flurl...");
+                view.WriteLine("[bold yellow] Данных в кэше нет. Делаем реальный запрос через Flurl...[/]");
 
                 try
                 {
@@ -54,14 +56,14 @@ namespace WeatherConsole
                 catch(FlurlHttpException ex)
                 {
                     var status = ex.StatusCode;
-                    Console.WriteLine($"[ОШИБКА API] Ошибка сети или некорректный запрос. Статус-код: {status}");
+                    view.WriteLine($"[red]--ОШИБКА API-- Ошибка сети или некорректный запрос. Статус-код: {status}[/]");
 
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.Zero;
                     return null;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[ОШИБКА] Непредвиденная ошибка: {ex.Message}");
+                    view.WriteLine($"[red]--ОШИБКА-- Непредвиденная ошибка: {ex.Message}[/]");
                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.Zero;
                     return null;
                 }
@@ -70,15 +72,15 @@ namespace WeatherConsole
             if (weather?.CurrentConditions != null)
             {
                 var current = weather.CurrentConditions;
-                Console.WriteLine($"\n[УСПЕХ] Город (по базе): {weather.Address}");
-                Console.WriteLine($"-> Температура: {current.Temp} °C (Ощущается как: {current.FeelsLike} °C)");
-                Console.WriteLine($"-> Погода: {current.Conditions}");
-                Console.WriteLine($"-> Влажность: {current.Humidity}%");
-                Console.WriteLine($"-> Местное время замера: {current.Datetime}");
+                view.WriteLine($"\n[green]  Город (по базе): {weather.Address}[/]");
+                view.WriteLine($"[green]-> Температура: {current.Temp} °C (Ощущается как: {current.FeelsLike} °C)[/]");
+                view.WriteLine($"[green]-> Погода: {current.Conditions}[/]");
+                view.WriteLine($"[green]-> Влажность: {current.Humidity}%[/]");
+                view.WriteLine($"[green]-> Местное время замера: {current.Datetime}[/]");
             }
             else
             {
-                Console.WriteLine("[РЕЗУЛЬТАТ] Не удалось получить данные. Попробуйте еще раз.");
+                view.WriteLine("[red] Не удалось получить данные. Попробуйте еще раз.[/]");
             }
 
             Console.WriteLine(new string('-', 40));
