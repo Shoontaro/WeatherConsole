@@ -27,7 +27,8 @@ namespace WeatherConsole
 
         public async Task GetWeatherAsync()
         {
-            string location = "Minsk";
+            view.Write("Town: ");
+            string location = Console.ReadLine()??"Minsk";
             string cacheKey = $"weather_{location.ToLower()}";
 
             var weather = await cache.GetOrCreateAsync(cacheKey, async entry =>

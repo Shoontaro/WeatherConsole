@@ -10,6 +10,9 @@ internal class Program
 
         view.WriteLine("[green] Приложение погоды на Flurl запущено.[/]");
 
-        new GetWether(view).GetWeatherAsync().Wait();
+        while (true)
+        {
+            new GetWether(view).GetWeatherAsync().Wait();
+        }
     }
 }
