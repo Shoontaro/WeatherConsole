@@ -22,7 +22,14 @@ namespace WeatherConsole
 
         public void WriteLine(string text)
         {
+            if (text.Contains("INFO")) {
+                text += "[/]";
+            }
+            text.Replace("INFO", "green");
+
             AnsiConsole.MarkupLine(text);
         }
+
+        
     }
 }

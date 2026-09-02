@@ -8,7 +8,7 @@ internal class Program
         using IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
         IView view = new View();
 
-        view.WriteLine("[green] Приложение погоды на Flurl запущено.[/]");
+        view.WriteLine("[green] Weather consile start...[/]");
 
         while (true)
         {
