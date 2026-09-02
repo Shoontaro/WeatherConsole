@@ -15,13 +15,15 @@ namespace WeatherConsole
     {
         string apiKey;
         const string url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
-        IMemoryCache cache;
+        
         IView view;
+
+        private static readonly IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
+
 
         public GetWether(IView view)
         {
             apiKey = new GetApiKey().GetKey();
-            cache = new MemoryCache(new MemoryCacheOptions());
             this.view = view;
         }
 
